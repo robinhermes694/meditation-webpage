@@ -1,7 +1,7 @@
 # Mindful — Implementation Status
 
 Last updated: June 2026
-App paths: `/root/zhongwen-website/mindful/` served at `http://localhost:8080/mindful/`
+Standalone repo root. Serve from this folder and open `index.html`.
 
 ---
 
@@ -132,7 +132,7 @@ App paths: `/root/zhongwen-website/mindful/` served at `http://localhost:8080/mi
 
 ## Testing
 
-Server: `python3 -m http.server 8080` from `/root/zhongwen-website/`
+Server: `python3 -m http.server 8080` from this repo root
 URL: `http://localhost:8080/mindful/`
 
 Known-good:

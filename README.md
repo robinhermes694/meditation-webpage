@@ -1,10 +1,14 @@
 # Mindful — Daily Meditation
 
-A browser-based meditation app with guided sessions, ambient soundscapes, breathing guidance, and synthesized voice narration.  
-Local project path: `/root/zhongwen-website/mindful/`  
-Live locally: `http://localhost:8080/mindful/`
+A browser-based meditation app with guided sessions, ambient soundscapes, breathing guidance, and synthesized voice narration.
 
----
+## Standalone repo
+
+This repo is intended to be standalone. Clone it anywhere, then open `index.html` from the repo root, or serve it with:
+
+```bash
+python3 -m http.server 8080
+```
 
 ## Features
 
@@ -23,13 +27,13 @@ Live locally: `http://localhost:8080/mindful/`
 
 ## Running locally
 
-From `/root/zhongwen-website/`:
+Serve this repo root and open `index.html`:
 
 ```bash
 python3 -m http.server 8080
 ```
 
-Then open: `http://localhost:8080/mindful/`
+Then open the URL corresponding to this repo folder.
 
 ---
 

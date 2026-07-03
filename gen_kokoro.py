@@ -9,9 +9,9 @@ import os
 import tempfile
 
 KOKORO_BIN = '/usr/local/lib/hermes-agent/venv/bin/kokoro-tts'
-MODELS_DIR = '/root/zhongwen-website/mindful/kokoro-models'
-OUT_FEMALE  = '/root/zhongwen-website/mindful/audio/kokoro-aria'
-OUT_MALE    = '/root/zhongwen-website/mindful/audio/kokoro-guy'
+MODELS_DIR = os.path.join(os.path.dirname(__file__), 'kokoro-models')
+OUT_FEMALE  = os.path.join(os.path.dirname(__file__), 'audio', 'kokoro-aria')
+OUT_MALE    = os.path.join(os.path.dirname(__file__), 'audio', 'kokoro-guy')
 SPEED = 0.85
 
 PHRASES = {

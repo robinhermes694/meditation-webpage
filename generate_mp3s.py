@@ -3,6 +3,7 @@
 
 import asyncio
 import edge_tts
+import os
 
 VOICES = {
     'aria': 'en-US-AriaNeural',
@@ -58,7 +59,7 @@ BODYSCAN_TEXTS = {
 
 TEXTS = {**METTA_TEXTS, **BODYSCAN_TEXTS}
 
-OUT_BASE = '/root/zhongwen-website/mindful/audio'
+OUT_BASE = os.path.join(os.path.dirname(__file__), 'audio')
 
 
 async def generate_all():
