@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mindful — Daily Meditation</title>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>Mindful</h1>
+      <p class="tagline">A moment of calm, every day.</p>
+      <p id="dailyQuote"></p>
+    </header>
+
+    <main id="home">
+      <section class="hero">
+        <div class="breathing-circle" aria-hidden="true">
+          <div class="inner"></div>
+        </div>
+        <p class="state-text" id="stateText">Ready when you are.</p>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      </section>
+
+      <section class="controls">
+        <label class="select-label" for="sessionLength">Session length</label>
+        <div class="segment" id="sessionPicker">
+          <button data-minutes="5" class="active">5 min</button>
+          <button data-minutes="10">10 min</button>
+          <button data-minutes="15">15 min</button>
+          <button data-minutes="20">20 min</button>
+          <button data-minutes="30">30 min</button>
+        </div>
+
+        <label class="select-label">Breathing pattern</label>
+        <div class="segment" id="patternPicker">
+          <button data-pattern="equal" class="active">Equal</button>
+          <button data-pattern="box">Box</button>
+          <button data-pattern="478">4-7-8</button>
+        </div>
+
+        <label class="select-label" for="breathSpeed">Breath pace</label>
+        <div class="segment" id="breathPicker">
+          <button data-seconds="5">5s</button>
+          <button data-seconds="7" class="active">7s</button>
+          <button data-seconds="8">8s</button>
+        </div>
+
+        <label class="select-label" for="themeSelect">Session</label>
+        <select id="themeSelect" class="voice-picker">
+          <option value="calm">Morning calm</option>
+          <option value="focus">Focus</option>
+          <option value="sleep">Sleep</option>
+          <option value="gratitude">Gratitude</option>
+          <option value="metta">Loving-Kindness</option>
+          <option value="bodyscan">Deep body scan</option>
+          <option value="sos">SOS — 3 min calm</option>
+          <option value="open">Just timer + bells</option>
+          <option value="soundscape">Soundscape (no timer)</option>
+        </select>
+
+        <label class="select-label" for="voiceSelect">Voice</label>
+        <select id="voiceSelect" class="voice-picker">
+          <option value="aria" selected>Aria (soft female, Edge TTS)</option>
+          <option value="guy">Ryan (calm male, Edge TTS)</option>
+          <option value="kokoro-aria">Nicole (Kokoro)</option>
+          <option value="kokoro-guy">Fable (Kokoro)</option>
+        </select>
+
+        <div class="row">
+          <button id="startBtn" class="primary">Begin session</button>
+          <button id="stopBtn" class="ghost" disabled>Stop</button>
+        </div>
+      </section>
+
+      <section class="music-toggle">
+        <button id="musicBtn" class="small">♪ Ambient music: ON</button>
+        <button id="darkModeBtn" class="small">🌙</button>
+        <div class="volume-row">
+          <span class="vol-label">Music level</span>
+          <input id="musicVolume" type="range" min="0" max="100" value="35" />
+          <span id="musicVolumeVal" class="vol-val">35%</span>
+        </div>
+        <div class="volume-row">
+          <span class="vol-label">Voice level</span>
+          <input id="voiceVolume" type="range" min="0" max="100" value="100" />
+          <span id="voiceVolumeVal" class="vol-val">100%</span>
+        </div>
+      </section>
+
+      <section class="bell-toggle">
+        <label class="select-label" for="bellInterval">Interval bell</label>
+        <select id="bellInterval" class="voice-picker">
+          <option value="0">Off</option>
+          <option value="1">Every 1 min</option>
+          <option value="3" selected>Every 3 min</option>
+          <option value="5">Every 5 min</option>
+          <option value="10">Every 10 min</option>
+        </select>
+        <button id="testBellBtn" class="small">Test bell</button>
+      </section>
+
+      <section class="history">
+        <div class="history-header">
+          <h2>Recent sessions</h2>
+          <span id="streakBadge" class="streak-badge" title="Current daily streak">🔥 0 day streak</span>
+          <span id="statsSummary" class="stats-summary" title="Total minutes"></span>
+        </div>
+        <div id="historyList" class="history-list">
+          <div class="empty-state">
+            <div class="breathing-circle empty-circle"></div>
+            <p class="empty">Your journey begins here.</p>
+            <p class="empty-sub">Start your first session above.</p>
+          </div>
+        </div>
+        <div id="moodCheckin" class="mood-checkin hidden">
+          <p class="mood-prompt">How was that?</p>
+          <div class="mood-row" id="moodRow">
+            <button data-mood="great" class="mood-btn">😌 Great</button>
+            <button data-mood="good" class="mood-btn">🙂 Good</button>
+            <button data-mood="ok" class="mood-btn">😐 Okay</button>
+            <button data-mood="difficult" class="mood-btn">😓 Difficult</button>
+            <button data-mood="rough" class="mood-btn">😤 Rough</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Ambient music tracks (royalty-free, musicscreen.org) -->
+  <audio id="ambient" loop preload="auto">
+    <source src="https://www.musicscreen.org/MP3-OGG/Relaxation/Ether.mp3" type="audio/mpeg"/>
+  </audio>
+  <audio id="ambient-calm" loop preload="none">
+    <source src="https://www.musicscreen.org/MP3-OGG/Relaxation/Peace.mp3" type="audio/mpeg"/>
+  </audio>
+  <audio id="ambient-focus" loop preload="none">
+    <source src="https://www.musicscreen.org/MP3-OGG/Relaxation/Light-Flow.mp3" type="audio/mpeg"/>
+  </audio>
+  <audio id="ambient-sleep" loop preload="none">
+    <source src="https://www.musicscreen.org/MP3-OGG/Relaxation/Blue-Dream.mp3" type="audio/mpeg"/>
+  </audio>
+  <audio id="ambient-gratitude" loop preload="none">
+    <source src="https://www.musicscreen.org/MP3-OGG/Relaxation/Haut.mp3" type="audio/mpeg"/>
+  </audio>
+  <!-- Additional ambient tracks -->
+  <audio id="ambient-air" loop preload="none">
+    <source src="https://www.musicscreen.org/MP3-OGG/Relaxation/Air.mp3" type="audio/mpeg"/>
+  </audio>
+  <audio id="ambient-ocean" loop preload="none">
+    <source src="https://www.musicscreen.org/MP3-OGG/Relaxation/Ocean.mp3" type="audio/mpeg"/>
+  </audio>
+  <audio id="ambient-wind" loop preload="none">
+    <source src="https://www.musicscreen.org/MP3-OGG/Relaxation/Wind.mp3" type="audio/mpeg"/>
+  </audio>
+  <audio id="ambient-noblesse" loop preload="none">
+    <source src="https://www.musicscreen.org/MP3-OGG/Relaxation/Noblesse.mp3" type="audio/mpeg"/>
+  </audio>
+  <audio id="ambient-fluide" loop preload="none">
+    <source src="https://www.musicscreen.org/MP3-OGG/Relaxation/Fluide.mp3" type="audio/mpeg"/>
+  </audio>
+  <audio id="ambient-dolphin" loop preload="none">
+    <source src="https://www.musicscreen.org/MP3-OGG/Relaxation/Dolphin-Prelude.mp3" type="audio/mpeg"/>
+  </audio>
+  <audio id="ambient-abundance" loop preload="none">
+    <source src="https://www.musicscreen.org/MP3-OGG/Relaxation/Abundance.mp3" type="audio/mpeg"/>
+  </audio>
+  <audio id="ambient-kahena" loop preload="none">
+    <source src="https://www.musicscreen.org/MP3-OGG/Relaxation/Kahena.mp3" type="audio/mpeg"/>
+  </audio>
+  <audio id="ambient-embrace" loop preload="none">
+    <source src="https://www.musicscreen.org/MP3-OGG/Relaxation/Embrace.mp3" type="audio/mpeg"/>
+  </audio>
+  <audio id="ambient-globe" loop preload="none">
+    <source src="https://www.musicscreen.org/MP3-OGG/Relaxation/Globe.mp3" type="audio/mpeg"/>
+  </audio>
+  <audio id="ambient-soul-colors" loop preload="none">
+    <source src="https://www.musicscreen.org/MP3-OGG/Relaxation/Soul-Colors.mp3" type="audio/mpeg"/>
+  </audio>
+
+  <script src="app.js"></script>
+</body>
+</html>
