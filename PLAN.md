@@ -91,9 +91,20 @@ Standalone repo root. Serve from this folder and open `index.html`.
 
 ---
 
-## 🔶 Phase 5 — Deep Features (Partial)
+## ✅ Phase 5 — Deep Features (Completed)
 
 ### Open meditation ✅ (covered in Phase 2)
+
+### Box breathing / hold phase ✅
+- `equal`, `box`, and `478` patterns selectable from the pattern picker
+- Box breathing now uses the selected breath pace for all four phases (inhale → hold → exhale → hold)
+- Hold phase is fully integrated with the adjustable breath pace selector
+
+### 7-day intro course ✅
+- New "7-Day Intro Course" option in Session picker
+- Day 1: Morning calm · Day 2: Body scan · Day 3: Metta · Day 4: Focus · Day 5: Gratitude · Day 6: Sleep · Day 7: Open practice
+- Each day has tailored theme, cue set, and suggested duration
+- Progress persisted in localStorage; auto-advances after completing a session
 
 ### Post-session journal
 - Not yet implemented
@@ -103,10 +114,6 @@ Standalone repo root. Serve from this folder and open `index.html`.
 - Not yet implemented
 - Would require Service Worker for reliable delivery; currently out of scope
 
-### 7-day intro course
-- Not yet implemented
-- Medium effort; deferred to Phase 5b
-
 ---
 
 ## ❌ Not Yet Implemented
@@ -114,8 +121,6 @@ Standalone repo root. Serve from this folder and open `index.html`.
 - **ElevenLabs API integration** (Phase 1b from original plan)
   - Reason: requires user API key, network calls, IndexedDB caching
   - Would be a premium upgrade path; feasible anytime
-- **Box breathing / hold phase**
-  - Added adjustable pace; hold phase is a small logical extension
 - **Journaling** (Phase 5)
 
 ---

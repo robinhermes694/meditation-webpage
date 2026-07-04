@@ -60,6 +60,42 @@ let breathingPattern = 'equal';   // restored from sessionStorage on init
 let progressIntervalId = null;     // cleared in endSession
 let animationFrameId = null;
 let patternPhaseTextLocked = false;
+let courseSessionTheme = null;     // original theme for intro-course sessions
+
+// ——— 7-Day Intro Course ———
+const COURSE_DAYS = [
+  { title: 'Day 1 — Becoming aware', theme: 'calm', minutes: 5 },
+  { title: 'Day 2 — Sensing the body', theme: 'bodyscan', minutes: 7 },
+  { title: 'Day 3 — Opening the heart', theme: 'metta', minutes: 7 },
+  { title: 'Day 4 — Quieting the mind', theme: 'focus', minutes: 7 },
+  { title: 'Day 5 — Gratitude', theme: 'gratitude', minutes: 5 },
+  { title: 'Day 6 — Rest and release', theme: 'sleep', minutes: 10 },
+  { title: 'Day 7 — Sitting freely', theme: 'open', minutes: 10 }
+];
+const COURSE_KEY = 'mindful.courseDay';
+
+function getCourseDay() {
+  const raw = localStorage.getItem(COURSE_KEY);
+  const day = raw ? parseInt(raw, 10) : 1;
+  return Math.max(1, Math.min(COURSE_DAYS.length, day || 1));
+}
+function setCourseDay(day) {
+  localStorage.setItem(COURSE_KEY, String(Math.max(1, Math.min(COURSE_DAYS.length, day))));
+}
+function getCourseTheme() {
+  return COURSE_DAYS[getCourseDay() - 1].theme;
+}
+function getCourseMinutes() {
+  return COURSE_DAYS[getCourseDay() - 1].minutes;
+}
+function advanceCourseDay() {
+  const next = getCourseDay() + 1;
+  if (next > COURSE_DAYS.length) {
+    setCourseDay(1);
+  } else {
+    setCourseDay(next);
+  }
+}
 
 // ——— Progress bar logic ———
 function updateProgress() {
@@ -276,6 +312,9 @@ sessionPicker.querySelectorAll('button').forEach(btn => {
 
 themeSelect.addEventListener('change', () => {
   selectedTheme = themeSelect.value;
+  if (selectedTheme === 'intro-course') {
+    selectedMinutes = getCourseMinutes();
+  }
   sessionStorage.removeItem('mindful.themeAutoSuggested');
 });
 
@@ -380,16 +419,16 @@ function getPatternPhases() {
   switch (breathingPattern) {
     case 'box':
       return [
-        { text: 'Breathe in\u2026', startScale: 1, endScale: 1.5, duration: 4000 },
-        { text: 'Hold\u2026', startScale: 1.5, endScale: 1.5, duration: 4000 },
-        { text: 'Breathe out\u2026', startScale: 1.5, endScale: 1, duration: 4000 },
-        { text: 'Hold\u2026', startScale: 1, endScale: 1, duration: 4000 }
+        { text: 'Breathe in…', startScale: 1, endScale: 1.5, duration: bs * 1000 },
+        { text: 'Hold…', startScale: 1.5, endScale: 1.5, duration: bs * 1000 },
+        { text: 'Breathe out…', startScale: 1.5, endScale: 1, duration: bs * 1000 },
+        { text: 'Hold…', startScale: 1, endScale: 1, duration: bs * 1000 }
       ];
     case '478':
       return [
-        { text: 'Breathe in\u2026', startScale: 1, endScale: 1.5, duration: 4000 },
-        { text: 'Hold\u2026', startScale: 1.5, endScale: 1.5, duration: 7000 },
-        { text: 'Breathe out\u2026', startScale: 1.5, endScale: 1, duration: 8000 }
+        { text: 'Breathe in…', startScale: 1, endScale: 1.5, duration: 4000 },
+        { text: 'Hold…', startScale: 1.5, endScale: 1.5, duration: 7000 },
+        { text: 'Breathe out…', startScale: 1.5, endScale: 1, duration: 8000 }
       ];
     default:
       return [
@@ -506,17 +545,18 @@ async function breathingCues(totalMinutes) {
     const cycleMs = getPatternCycleMs();
     while (running && (Date.now() - start) < totalMs) {
       if (breathingPattern === 'box') {
-        setPatternPhase('Breathe in\u2026', 1, 1.5, 4000);
-        await wait(4000);
+        const boxMs = breathSeconds * 1000;
+        setPatternPhase('Breathe in…', 1, 1.5, boxMs);
+        await wait(boxMs);
         if (!running) return;
-        setPatternPhase('Hold\u2026', 1.5, 1.5, 4000);
-        await wait(4000);
+        setPatternPhase('Hold…', 1.5, 1.5, boxMs);
+        await wait(boxMs);
         if (!running) return;
-        setPatternPhase('Breathe out\u2026', 1.5, 1, 4000);
-        await wait(4000);
+        setPatternPhase('Breathe out…', 1.5, 1, boxMs);
+        await wait(boxMs);
         if (!running) return;
-        setPatternPhase('Hold\u2026', 1, 1, 4000);
-        await wait(4000);
+        setPatternPhase('Hold…', 1, 1, boxMs);
+        await wait(boxMs);
         if (!running) return;
       } else if (breathingPattern === '478') {
         setPatternPhase('Breathe in\u2026', 1, 1.5, 4000);
@@ -667,17 +707,18 @@ async function breathingCues(totalMinutes) {
     if (t === 'sos' && (Date.now() - quietStart) >= sosQuietCap) break;
 
     if (breathingPattern === 'box') {
-      setPatternPhase('Breathe in\u2026', 1, 1.5, 4000);
-      await wait(4000);
+      const boxMs = breathSeconds * 1000;
+      setPatternPhase('Breathe in…', 1, 1.5, boxMs);
+      await wait(boxMs);
       if (!running) break;
-      setPatternPhase('Hold\u2026', 1.5, 1.5, 4000);
-      await wait(4000);
+      setPatternPhase('Hold…', 1.5, 1.5, boxMs);
+      await wait(boxMs);
       if (!running) break;
-      setPatternPhase('Breathe out\u2026', 1.5, 1, 4000);
-      await wait(4000);
+      setPatternPhase('Breathe out…', 1.5, 1, boxMs);
+      await wait(boxMs);
       if (!running) break;
-      setPatternPhase('Hold\u2026', 1, 1, 4000);
-      await wait(4000);
+      setPatternPhase('Hold…', 1, 1, boxMs);
+      await wait(boxMs);
       if (!running) break;
     } else if (breathingPattern === '478') {
       setPatternPhase('Breathe in\u2026', 1, 1.5, 4000);
@@ -771,9 +812,11 @@ async function startSession() {
   lockBreathPicker();
   lockPatternPicker();
 
+  courseSessionTheme = null;
+
   // ——— Soundscape mode: no timer, no voice, play until stopped ———
   if (selectedTheme === 'soundscape') {
-    stateText.textContent = 'Soundscape playing\u2026';
+    stateText.textContent = 'Soundscape playing…';
     stateText.classList.add('soundscape');
     if (progressFill) progressFill.style.display = 'none';
 
@@ -794,7 +837,15 @@ async function startSession() {
   }
 
   // ——— Normal session ———
+  const originalTheme = selectedTheme;
   const originalMinutes = selectedMinutes;
+  if (selectedTheme === 'intro-course') {
+    courseSessionTheme = selectedTheme;
+    selectedTheme = getCourseTheme();
+    selectedMinutes = getCourseMinutes();
+    stateText.textContent = COURSE_DAYS[getCourseDay() - 1].title;
+  }
+
   if (selectedTheme === 'sos') {
     selectedMinutes = 3;
   }
@@ -805,7 +856,9 @@ async function startSession() {
   // 3-second countdown (ambient music intentionally paused during this)
   await startCountdown();
   if (!running) {
+    selectedTheme = courseSessionTheme || selectedTheme;
     selectedMinutes = originalMinutes;
+    courseSessionTheme = null;
     return;
   }
 
@@ -815,7 +868,8 @@ async function startSession() {
   if (audioOn) startThemeAmbient();
   await breathingCues(selectedMinutes);
 
-  // Restore minutes for SOS
+  // Restore theme/minutes for course or SOS
+  selectedTheme = courseSessionTheme || selectedTheme;
   selectedMinutes = originalMinutes;
 
   if (running) {
@@ -869,8 +923,12 @@ async function endSession(status) {
   if (inner) inner.style.animationDuration = '';
 
   if (status === 'completed') {
-    saveHistory(selectedMinutes, selectedTheme);
+    saveHistory(selectedMinutes, courseSessionTheme || selectedTheme);
     if (moodCheckin) moodCheckin.classList.remove('hidden');
+    if (courseSessionTheme) {
+      advanceCourseDay();
+      courseSessionTheme = null;
+    }
   } else {
     if (moodCheckin) moodCheckin.classList.add('hidden');
   }
