@@ -129,9 +129,13 @@ Standalone repo root. Serve from this folder and open `index.html`.
 
 | File | Lines | Size |
 |------|-------|------|
-| index.html | 155 | ~6.7 KB |
-| app.js | 824 | ~29 KB |
+| index.html | 156 | ~6.8 KB |
+| app.js | 936 | ~32 KB |
 | styles.css | 280 | ~5.4 KB |
+| PLAN.md | 150 | ~4.9 KB |
+| README.md | 99 | ~2.5 KB |
+| requirements.txt | 3 | ~80 B |
+| install.sh | 27 | ~600 B |
 
 ---
 
