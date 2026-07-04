@@ -440,7 +440,7 @@ function getPatternPhases() {
 
 function getPatternCycleMs() {
   switch (breathingPattern) {
-    case 'box': return 16000;
+    case 'box': return breathSeconds * 4 * 1000;
     case '478': return 19000;
     default: return breathSeconds * 2 * 1000;
   }
