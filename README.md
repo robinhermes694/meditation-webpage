@@ -34,10 +34,11 @@ python3 gen_kokoro.py
 
 ## Features
 
-- Multiple meditation modes: Morning Calm, Focus, Sleep, Gratitude, Loving-Kindness, Deep Body Scan, SOS Calm, Open meditation
+- Multiple meditation modes: Morning Calm, Focus, Sleep, Gratitude, Loving-Kindness, Deep Body Scan, SOS Calm, Open meditation, 7-Day Intro Course
 - Session lengths: 5 / 10 / 15 / 20 / 30 minutes
 - Voice narration with voice selector and preview
 - Breathing circle with adjustable pace: 5s / 7s / 8s per phase
+- Breathing patterns: Equal, Box, 4-7-8 (box breathing uses selected pace for all phases including hold)
 - Interval bell support: Off / 1 / 3 / 5 / 10 minutes
 - Ambient music/mixer tracks with volume control
 - Mood check-in after sessions
