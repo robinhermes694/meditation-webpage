@@ -10,6 +10,15 @@ This repo is intended to be standalone. Clone it anywhere, then open `index.html
 python3 -m http.server 8080
 ```
 
+## Installation
+
+```bash
+bash install.sh
+source .venv/bin/activate
+python3 generate_mp3s.py
+python3 gen_kokoro.py
+```
+
 ## Features
 
 - Multiple meditation modes: Morning Calm, Focus, Sleep, Gratitude, Loving-Kindness, Deep Body Scan, SOS Calm, Open meditation
