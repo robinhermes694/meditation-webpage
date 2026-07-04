@@ -12,9 +12,22 @@ python3 -m http.server 8080
 
 ## Installation
 
+Option A: install script
+
 ```bash
 bash install.sh
 source .venv/bin/activate
+python3 generate_mp3s.py
+python3 gen_kokoro.py
+```
+
+Option B: pip with requirements
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
 python3 generate_mp3s.py
 python3 gen_kokoro.py
 ```
