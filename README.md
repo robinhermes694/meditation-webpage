@@ -89,7 +89,6 @@ Most planned phases are complete. Remaining deferred items:
 
 - Post-session journaling
 - Browser notification reminders
-- 7-day intro course
 - Optional ElevenLabs API integration
 
 If you want, the next natural repo improvements are:
